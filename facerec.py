@@ -2,8 +2,14 @@ import cv2
 import face_recognition as fr
 import numpy as np
 import os
+import platform
 from tkinter import *
 from tkinter.ttk import *
+import subprocess
+if platform.system() == 'Linux':
+	from playsound import playsound
+	playsound.BLOCK = False
+import keyboard
 
 # Save window height, width
 root = Tk()
@@ -11,10 +17,12 @@ height = root.winfo_screenheight()
 width = root.winfo_screenwidth()
 
 # Read in desktop image
-img = cv2.imread('desktop.png')
+img = cv2.imread('./graphics/desktop.png')
 showImg = True
 
 TOLERANCE = .5
+hasLeft = False
+screamcountdown = 30
 
 NAMEPATH = "./facedata/names.txt"
 namesfile = open(NAMEPATH, "r")
@@ -38,6 +46,12 @@ uk_face_enc = []
 process_this_frame = True
 
 video_capture = cv2.VideoCapture(0)
+
+def containsNames(names, lst):
+	for name in names:
+		if name in lst:
+			return True
+	return False
 
 while True:
 	ret, frame = video_capture.read()
@@ -83,24 +97,35 @@ while True:
 	#	break
 
 	# if can't find face, play sound:
-        winsound.PlaySound("leave.wav", winsound.SND_ASYNC |
-                           winsound.SND_ALIAS)
-    # else face is found, stop sound:
-        winsound.PlaySound(None, winsound.SND_ASYNC)
+	
+	if not containsNames(uk_face_names, names):
+		screamcountdown -= 1
+		if platform.system() == 'Windows':
+			if screamcountdown == 0:
+				winsound.PlaySound("./sounds/leave.mp3", winsound.SND_ASYNC | winsound.SND_ALIAS)
+		elif screamcountdown == 0:
+				playsound("./sounds/leave.mp3")
+		hasLeft = True
+	if containsNames(uk_face_names, names) and hasLeft:
+		hasLeft = False
+		screamcountdown = 30
+			
+	if platform.system() == "Windows":
+		winsound.PlaySound(None, winsound.SND_ASYNC)
 
 	# Determines when desktop image is shown or not (bool showImg)
-    if showImg:
-        cv2.namedWindow('desktop', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('desktop', width, height)
-        cv2.moveWindow("desktop", 0, 0)
-        cv2.imshow('desktop', img)
-    else:
-        cv2.destroyWindow('desktop')
-    # Hide desktop image (if face is present):
-    if keyboard.is_pressed('a'):
-        showImg = False
-    elif keyboard.is_pressed('b'):
-        showImg = True
+	if showImg:
+		cv2.namedWindow('desktop', cv2.WINDOW_NORMAL)
+		cv2.resizeWindow('desktop', width, height)
+		cv2.moveWindow("desktop", 0, 0)
+		cv2.imshow('desktop', img)
+	else:
+		cv2.destroyWindow('desktop')
+	# Hide desktop image (if face is present):
+	#if keyboard.is_pressed('a'):
+	#	showImg = False
+	#elif keyboard.is_pressed('b'):
+	#	showImg = True
 
 	# put code to handle face detection
 	# NOTE: uk_face_names = names of on screen faces, stored in an array
