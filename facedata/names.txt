@@ -1,0 +1,8 @@
+Obama
+facedata/Obama.jpg
+Adam
+./facedata/Adam.jpg
+Jaime
+./facedata/Jaime.jpg
+Hannah
+./facedata/Hannah.jpg
