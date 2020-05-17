@@ -59,7 +59,6 @@ while True:
 			face_dist = fr.face_distance(face_enc, enc)
 			best_match_index = np.argmin(face_dist)
 			if matches[best_match_index]:
-				print(matches[best_match_index])
 				name = names[best_match_index]
 			uk_face_names.append(name)
 

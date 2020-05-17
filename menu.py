@@ -51,7 +51,7 @@ def clicked(event):
     		#start button code here
     		print("start")
     		root.destroy()
-    		os.system("python3 facerec.py")
+    		exec(open("facerec.py").read())
     		exit()
     	if 289 < y and y < 395:
     		#settings button code here
