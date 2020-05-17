@@ -12,13 +12,9 @@ if platform.system() == 'Linux':
 import keyboard
 
 # Save window height, width
-root = Tk()
-height = root.winfo_screenheight()
-width = root.winfo_screenwidth()
-
-# Read in desktop image
-img = cv2.imread('./graphics/desktop.png')
-showImg = True
+#root = Tk()
+#height = root.winfo_screenheight()
+#width = root.winfo_screenwidth()
 
 TOLERANCE = .5
 hasLeft = False
@@ -106,7 +102,7 @@ while True:
 		elif screamcountdown == 0:
 				playsound("./sounds/leave.mp3")
 		hasLeft = True
-	if containsNames(uk_face_names, names) and hasLeft:
+	elif hasLeft:
 		hasLeft = False
 		screamcountdown = 30
 			
@@ -114,13 +110,7 @@ while True:
 		winsound.PlaySound(None, winsound.SND_ASYNC)
 
 	# Determines when desktop image is shown or not (bool showImg)
-	if showImg:
-		cv2.namedWindow('desktop', cv2.WINDOW_NORMAL)
-		cv2.resizeWindow('desktop', width, height)
-		cv2.moveWindow("desktop", 0, 0)
-		cv2.imshow('desktop', img)
-	else:
-		cv2.destroyWindow('desktop')
+
 	# Hide desktop image (if face is present):
 	#if keyboard.is_pressed('a'):
 	#	showImg = False
@@ -131,7 +121,7 @@ while True:
 	# NOTE: uk_face_names = names of on screen faces, stored in an array
 	
 	# proof of concept
-	print(uk_face_names)
+	#print(uk_face_names)
 	
 
 # Release handle to the webcam
