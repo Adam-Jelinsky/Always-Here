@@ -14,16 +14,6 @@ for i in range(len(namesdata)):
 	if i % 2 == 1:
 		facepaths.append(namesdata[i][0:-1])
 
-def norm(ndarr):
-	out = []
-	for arr in ndarr:
-		norm = 0
-		for i in arr:
-			norm = norm + i*i
-		out.append(norm)
-	return out
-
-
 face_enc = []
 
 for i in range(len(facepaths)):
@@ -31,8 +21,6 @@ for i in range(len(facepaths)):
 		names.append(namesdata[2*i][0:-1])
 		face_enc.append(enc)
 
-
-print(face_enc)
 
 
 uk_face_loc = []
@@ -64,27 +52,34 @@ while True:
 
 	process_this_frame = not process_this_frame
 
-	for (top, right, bottom, left), name in zip(uk_face_loc, uk_face_names):
-		top *= 4
-		right *= 4
-		bottom *= 4
-		left *= 4
+	#for (top, right, bottom, left), name in zip(uk_face_loc, uk_face_names):
+	#	top *= 4
+	#	right *= 4
+	#	bottom *= 4
+	#	left *= 4
 
 		# Draw a box around the face
-		cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+	#	cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
 		# Draw a label with a name below the face
-		cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-		font = cv2.FONT_HERSHEY_DUPLEX
-		cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+	#	cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+	#	font = cv2.FONT_HERSHEY_DUPLEX
+	#	cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
 	# Display the resulting image
-	cv2.imshow('Video', frame)
+	#cv2.imshow('Video', frame)
 
 	
 	# Hit 'q' on the keyboard to quit!
-	if cv2.waitKey(1) & 0xFF == ord('q'):
-		break
+	#if cv2.waitKey(1) & 0xFF == ord('q'):
+	#	break
+	
+	# put code to handle face detection
+	# NOTE: uk_face_names = names of on screen faces, stored in an array
+	
+	# proof of concept
+	print(uk_face_names)
+	
 
 # Release handle to the webcam
 video_capture.release()
